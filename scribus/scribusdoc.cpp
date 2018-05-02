@@ -4093,17 +4093,19 @@ QStringList ScribusDoc::getUsedPatternsSelection(Selection* customSelection)
 
 QStringList ScribusDoc::getUsedPatternsHelper(QString pattern, QStringList &results)
 {
-	if (!docPatterns.contains(pattern))
+	auto patIter = docPatterns.constFind(pattern);
+	if (patIter == docPatterns.end())
 		return QStringList();
-	ScPattern *pat = &docPatterns[pattern];
+	const ScPattern &pat = patIter.value();
+
 	QStringList pats;
-	for (int i = 0; i < pat->items.count(); ++i)
+	for (int i = 0; i < pat.items.count(); ++i)
 	{
 		QList<PageItem*> allItems;
-		if (pat->items.at(i)->isGroup())
-			allItems = pat->items.at(i)->getAllChildren();
+		if (pat.items.at(i)->isGroup())
+			allItems = pat.items.at(i)->getAllChildren();
 		else
-			allItems.append(pat->items.at(i));
+			allItems.append(pat.items.at(i));
 		for (int j = 0; j < allItems.count(); j++)
 		{
 			PageItem *currItem = allItems.at(j);
@@ -4267,13 +4269,17 @@ QStringList ScribusDoc::getUsedSymbols()
 
 QStringList ScribusDoc::getUsedSymbolsHelper(QString pattern, QStringList &results)
 {
-	ScPattern *pat = &docPatterns[pattern];
+	auto patIter = docPatterns.constFind(pattern);
+	if (patIter == docPatterns.end())
+		return QStringList();
+	const ScPattern &pat = patIter.value();
+
 	QStringList pats;
-	for (int i = 0; i < pat->items.count(); ++i)
+	for (int i = 0; i < pat.items.count(); ++i)
 	{
-		if (pat->items.at(i)->itemType() == PageItem::Symbol)
+		if (pat.items.at(i)->itemType() == PageItem::Symbol)
 		{
-			const QString& patName = pat->items.at(i)->pattern();
+			const QString& patName = pat.items.at(i)->pattern();
 			if (!patName.isEmpty() && !results.contains(patName))
 				pats.append(patName);
 		}
