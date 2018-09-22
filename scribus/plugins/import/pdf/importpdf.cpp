@@ -556,10 +556,21 @@ bool PdfPlug::convert(const QString& fn)
 									}
 									else
 									{
-										GooList *ocgs;
-										int i;
-										ocgs = ocg->getOCGs ();
-										for (i = 0; i < ocgs->getLength (); ++i)
+#if POPPLER_ENCODED_VERSION >= POPPLER_VERSION_ENCODE(0, 69, 0)
+										const auto& ocgs = ocg->getOCGs ();
+										for (const auto& ocg : ocgs)
+										{
+											OptionalContentGroup *oc = ocg.second.get();
+											QString ocgName = UnicodeParsedString(oc->getName());
+											if (!ocgNames.contains(ocgName))
+											{
+												ocgGroups.prepend(oc);
+												ocgNames.append(ocgName);
+											}
+										}
+#else
+										GooList *ocgs = ocg->getOCGs ();
+										for (int i = 0; i < ocgs->getLength (); ++i)
 										{
 											OptionalContentGroup *oc = (OptionalContentGroup *)ocgs->get(i);
 											QString ocgName = UnicodeParsedString(oc->getName());
@@ -569,15 +580,27 @@ bool PdfPlug::convert(const QString& fn)
 												ocgNames.append(ocgName);
 											}
 										}
+#endif
 									}
 								}
 							}
 							else
 							{
-								GooList *ocgs;
-								int i;
-								ocgs = ocg->getOCGs ();
-								for (i = 0; i < ocgs->getLength (); ++i)
+#if POPPLER_ENCODED_VERSION >= POPPLER_VERSION_ENCODE(0, 69, 0)
+								const auto& ocgs = ocg->getOCGs ();
+								for (const auto& ocg : ocgs)
+								{
+									OptionalContentGroup *oc = ocg.second.get();
+									QString ocgName = UnicodeParsedString(oc->getName());
+									if (!ocgNames.contains(ocgName))
+									{
+										ocgGroups.prepend(oc);
+										ocgNames.append(ocgName);
+									}
+								}
+#else
+								GooList *ocgs = ocg->getOCGs ();
+								for (int i = 0; i < ocgs->getLength (); ++i)
 								{
 									OptionalContentGroup *oc = (OptionalContentGroup *)ocgs->get(i);
 									QString ocgName = UnicodeParsedString(oc->getName());
@@ -587,6 +610,7 @@ bool PdfPlug::convert(const QString& fn)
 										ocgNames.append(ocgName);
 									}
 								}
+#endif
 							}
 						}
 					}
