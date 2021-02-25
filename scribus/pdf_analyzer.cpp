@@ -783,7 +783,9 @@ PDFFont PDFAnalyzer::getFontInfo(PdfObject* fontObj)
 			if (descendantFonts && descendantFonts->IsArray())
 			{
 				PdfObject descendantFont = descendantFonts->GetArray()[0];
+#if (PODOFO_VERSION < PODOFO_MAKE_VERSION(0, 9, 7))
 				descendantFont.SetOwner(descendantFonts->GetOwner());
+#endif
 				PdfObject* subtypeDescFont = descendantFont.GetIndirectKey("Subtype");
 				fontDesc = descendantFont.MustGetIndirectKey("FontDescriptor");
 				if (subtypeDescFont && subtypeDescFont->IsName())
