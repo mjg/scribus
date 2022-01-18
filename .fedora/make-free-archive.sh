@@ -1,24 +1,23 @@
 #! /bin/sh
 
 if [ -z "$1" ]; then
-    echo "version required"
-    exit 1
-fi
+    echo "no version specified, assuming checkout"
+else
+    version=$1
+    nv=scribus-${version}
 
-version=$1
-nv=scribus-${version}
+    archive=${nv}.tar.xz
+    freearchive=${nv}-free.tar.xz
 
-archive=${nv}.tar.xz
-freearchive=${nv}-free.tar.xz
-
-echo "Verify if source available. Download may be needed"
+    echo "Verify if source available. Download may be needed"
 [ -f ${archive} ] || curl -OL http://downloads.sourceforge.net/scribus/scribus-${version}.tar.xz
 
-echo "Extracting sources ..."
-rm -rf ${nv}
-tar -xJf $archive
+    echo "Extracting sources ..."
+    rm -rf ${nv}
+    tar -xJf $archive
 
-pushd ${nv}
+    pushd ${nv}
+fi
 
 # remove docs
 rm -r doc
@@ -48,9 +47,11 @@ rm -r resources/dicts
 sed -i '/dicts/d' CMakeLists.txt
 echo "Non-free dicts removed"
 
-popd
+if [ -n "$1" ]; then
+    popd
 
-echo "Creating sources ..."
-tar cf - ${nv} | xz > ${freearchive}
-echo "Source free archives created"
+    echo "Creating sources ..."
+    tar cf - ${nv} | xz > ${freearchive}
+    echo "Source free archives created"
+fi
 echo "Task completed"
