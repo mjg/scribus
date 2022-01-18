@@ -9,7 +9,10 @@ License:	GPLv2+
 URL:		http://www.scribus.net/
 # svn export svn://scribus.net/trunk/Scribus scribus
 # tar --exclude-vcs -cJf scribus-1.5.0-20161204svn21568.tar.xz scribus
-Source0:	https://github.com/mjg/%{origname}-svn/archive/trunk.tar.gz#/%{origname}-%{version}-%{build_timestamp}git.tar.gz
+## The following script removes non free contents
+# .fedora/make-free-archive %%{version}
+Source0:	https://github.com/mjg/%{origname}/archive/fedora.tar.gz#/%{origname}-%{version}-%{build_timestamp}git.tar.gz
+#Source0:	https://github.com/mjg/%%{origname}-svn/archive/trunk.tar.gz#/%%{origname}-%%{version}-%%{build_timestamp}git.tar.gz
 
 BuildRequires:	boost-devel
 BuildRequires:	cmake
@@ -61,11 +64,6 @@ BuildRequires:	python3-qt5-devel
 BuildRequires:	python3dist(setuptools)
 BuildRequires:	python3-tkinter
 
-%if 0%{?fedora} >= 23 || 0%{?rhel} > 7
-Supplements:	%{name}-doc = %{version}-%{release}
-%else
-Requires:	%{name}-doc = %{version}-%{release}
-%endif
 
 %filter_provides_in %{_libdir}/%{origname}-%{version}/plugins
 %filter_setup
@@ -81,26 +79,9 @@ understand tools, Scribus offers support for professional publishing
 features, such as CMYK color, easy PDF creation, Encapsulated Postscript
 import/export and creation of color separations.
 
-%package        devel
-Summary:	Header files for Scribus
-Requires:	%{name} = %{version}-%{release}
-
-%description    devel
-#Header files for Scribus.
-
-%package        doc
-Summary:	Documentation files for Scribus
-Requires:       %{name} = %{version}-%{release}
-%if 0%{?fedora} > 9
-BuildArch:      noarch
-Obsoletes:      %{name}-doc < 1.3.5-0.12.beta
-%endif
-
-%description    doc
-%{summary}
 
 %prep
-%autosetup -n %{origname}-svn-trunk -p1
+%autosetup -n %{origname}-fedora -p1
 
 # fix permissions
 chmod a-x scribus/pageitem_latexframe.h
@@ -137,10 +118,12 @@ appstream-util validate-relax --nonet \
 
 
 %files
+%license %{_defaultdocdir}/%{origname}-%{fversion}/COPYING
 %doc %{_defaultdocdir}/%{origname}-%{fversion}/AUTHORS
 %doc %{_defaultdocdir}/%{origname}-%{fversion}/ChangeLog
-%doc %{_defaultdocdir}/%{origname}-%{fversion}/COPYING
+%doc %{_defaultdocdir}/%{origname}-%{fversion}/LINKS
 %doc %{_defaultdocdir}/%{origname}-%{fversion}/README
+%doc %{_defaultdocdir}/%{origname}-%{fversion}/TRANSLATION
 %{_bindir}/%{origname}-%{fversion}
 %{_libdir}/%{origname}-%{fversion}/
 %{_metainfodir}/%{origname}-%{fversion}.appdata.xml
@@ -157,20 +140,12 @@ appstream-util validate-relax --nonet \
 %{_mandir}/pl/man1/*
 %{_mandir}/de/man1/*
 
-%files devel
-%doc AUTHORS COPYING
-
-%files doc
-%dir %{_defaultdocdir}/%{origname}-%{fversion}
-%lang(de) %{_defaultdocdir}/%{origname}-%{fversion}/de
-%lang(en) %{_defaultdocdir}/%{origname}-%{fversion}/en
-%lang(it) %{_defaultdocdir}/%{origname}-%{fversion}/it
-%lang(ru) %{_defaultdocdir}/%{origname}-%{fversion}/ru
-%{_defaultdocdir}/%{origname}-%{fversion}/README*
-%{_defaultdocdir}/%{origname}-%{fversion}/LINKS
-%{_defaultdocdir}/%{origname}-%{fversion}/TRANSLATION
 
 %changelog
+* Tue Jan 18 2022 Michael J Gruber <mjg@fedoraproject.org> - 1.5.8-0.20220118git
+- sync with Fedora rawhide spec (sub packages)
+- adjust source to my fedora branch
+
 * Sun Jan 02 2022 Michael J Gruber <mjg@fedoraproject.org> - 1.5.8-0.20220102git
 - sync with Fedora rawhide spec (for the main package)
 
