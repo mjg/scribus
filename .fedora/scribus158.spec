@@ -92,6 +92,7 @@ chmod a-x scribus/pageitem_latexframe.h
 %build
 %cmake	\
 	-DCMAKE_CXX_STANDARD=17 \
+	-DWANT_CPP17=ON \
 	-DWANT_CCACHE=YES \
 	-DWANT_DISTROBUILD=YES \
 	-DWANT_GRAPHICSMAGICK=1 \
@@ -142,6 +143,9 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Thu Jan 20 2022 Michael J Gruber <mjg@fedoraproject.org> - 1.5.8-0.20220120git
+- really build with CPP17
+
 * Tue Jan 18 2022 Michael J Gruber <mjg@fedoraproject.org> - 1.5.8-0.20220118git
 - sync with Fedora rawhide spec (sub packages)
 - adjust source to my fedora branch
