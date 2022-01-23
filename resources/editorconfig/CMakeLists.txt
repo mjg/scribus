@@ -12,7 +12,6 @@ gnuplot.png
 300_lilypond.xml
 lilypond.png
 400_dot.xml
-dot.svg
 500_povray.xml
 povray_32.png
 600_xelatex.xml
