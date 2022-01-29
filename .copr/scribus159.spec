@@ -1,7 +1,7 @@
 %global build_timestamp %{lua: print(os.date("%Y%m%d"))}
 %global	origname	scribus
-Name:		scribus158
-Version:	1.5.8
+Name:		scribus159
+Version:	1.5.9
 %global fversion	%{version}.svn
 Release:	0.%{build_timestamp}git%{?dist}
 Summary:	Open Source Page Layout
@@ -10,8 +10,8 @@ URL:		http://www.scribus.net/
 # svn export svn://scribus.net/trunk/Scribus scribus
 # tar --exclude-vcs -cJf scribus-1.5.0-20161204svn21568.tar.xz scribus
 ## The following script removes non free contents
-# .copr/make-free-archive %%{version}
-Source0:	https://github.com/mjg/%{origname}/archive/fedora158.tar.gz#/%{origname}-%{version}-%{build_timestamp}git.tar.gz
+# .fedora/make-free-archive %%{version}
+Source0:	https://github.com/mjg/%{origname}/archive/fedora.tar.gz#/%{origname}-%{version}-%{build_timestamp}git.tar.gz
 #Source0:	https://github.com/mjg/%%{origname}-svn/archive/trunk.tar.gz#/%%{origname}-%%{version}-%%{build_timestamp}git.tar.gz
 
 BuildRequires:	boost-devel
@@ -81,7 +81,7 @@ import/export and creation of color separations.
 
 
 %prep
-%autosetup -n %{origname}-fedora158 -p1
+%autosetup -n %{origname}-fedora -p1
 
 # fix permissions
 chmod a-x scribus/pageitem_latexframe.h
@@ -143,6 +143,9 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Sat Jan 29 2022 Michael J Gruber <mjg@fedoraproject.org> - 1.5.9-0.20220129git
+- svn branch Version15x carries 1.5.9.svn now
+
 * Thu Jan 20 2022 Michael J Gruber <mjg@fedoraproject.org> - 1.5.8-0.20220120git
 - really build with CPP17
 
