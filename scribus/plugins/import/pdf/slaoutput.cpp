@@ -7,6 +7,11 @@ for which a new license (GPL+exception) is in place.
 
 #include "slaoutput.h"
 
+#if POPPLER_ENCODED_VERSION >= POPPLER_VERSION_ENCODE(22, 2, 0)
+#include <memory>
+#include <optional>
+#endif
+
 #include <poppler/GlobalParams.h>
 #include <poppler/poppler-config.h>
 #include <poppler/FileSpec.h>
@@ -3029,18 +3034,24 @@ void SlaOutputDev::markPoint(POPPLER_CONST char *name, Dict *properties)
 void SlaOutputDev::updateFont(GfxState *state)
 {
 	GfxFont *gfxFont;
-	GfxFontLoc *fontLoc;
+#if POPPLER_ENCODED_VERSION >= POPPLER_VERSION_ENCODE(22, 2, 0)
+	std::optional<GfxFontLoc> fontLoc;
+	const GooString * fileName = nullptr;
+	std::unique_ptr<FoFiTrueType> ff;
+#else
+	GfxFontLoc * fontLoc = nullptr;
+	GooString * fileName = nullptr;
+	FoFiTrueType * ff = nullptr;
+#endif
 	GfxFontType fontType;
 	SlaOutFontFileID *id;
 	SplashFontFile *fontFile;
 	SplashFontSrc *fontsrc = nullptr;
-	FoFiTrueType *ff;
 	Object refObj, strObj;
-	GooString *fileName;
-	char *tmpBuf;
+	char *tmpBuf = nullptr;
 	int tmpBufLen = 0;
-	int *codeToGID;
-	const double *textMat;
+	int *codeToGID = nullptr;
+	const double *textMat = nullptr;
 	double m11, m12, m21, m22, fontSize;
 	SplashCoord mat[4];
 	int n = 0;
@@ -3048,9 +3059,6 @@ void SlaOutputDev::updateFont(GfxState *state)
 	SplashCoord matrix[6];
 
 	m_font = nullptr;
-	fileName = nullptr;
-	tmpBuf = nullptr;
-	fontLoc = nullptr;
 
 	gfxFont = state->getFont();
 	if (!gfxFont)
@@ -3085,7 +3093,11 @@ void SlaOutputDev::updateFont(GfxState *state)
 		}
 		else
 		{ // gfxFontLocExternal
+#if POPPLER_ENCODED_VERSION >= POPPLER_VERSION_ENCODE(22, 2, 0)
+			fileName = fontLoc->pathAsGooString();
+#else
 			fileName = fontLoc->path;
+#endif
 			fontType = fontLoc->fontType;
 		}
 
@@ -3138,9 +3150,14 @@ void SlaOutputDev::updateFont(GfxState *state)
 				ff = FoFiTrueType::make(tmpBuf, tmpBufLen);
 			if (ff)
 			{
+#if POPPLER_ENCODED_VERSION >= POPPLER_VERSION_ENCODE(22, 2, 0)
+				codeToGID = ((Gfx8BitFont*) gfxFont)->getCodeToGIDMap(ff.get());
+				ff.reset();
+#else
 				codeToGID = ((Gfx8BitFont *)gfxFont)->getCodeToGIDMap(ff);
-				n = 256;
 				delete ff;
+#endif
+				n = 256;
 			}
 			else
 			{
@@ -3211,8 +3228,13 @@ void SlaOutputDev::updateFont(GfxState *state)
 					ff = FoFiTrueType::make(tmpBuf, tmpBufLen);
 				if (! ff)
 					goto err2;
+#if POPPLER_ENCODED_VERSION >= POPPLER_VERSION_ENCODE(22, 2, 0)
+				codeToGID = ((GfxCIDFont*) gfxFont)->getCodeToGIDMap(ff.get(), &n);
+				ff.reset();
+#else
 				codeToGID = ((GfxCIDFont *)gfxFont)->getCodeToGIDMap(ff, &n);
 				delete ff;
+#endif
 			}
 			if (!(fontFile = m_fontEngine->loadTrueTypeFont(
 							id,
@@ -3249,14 +3271,19 @@ void SlaOutputDev::updateFont(GfxState *state)
 	mat[3] = -m22;
 	m_font = m_fontEngine->getFont(fontFile, mat, matrix);
 
+#if POPPLER_ENCODED_VERSION < POPPLER_VERSION_ENCODE(22, 2, 0)
 	delete fontLoc;
+#endif
 	if (fontsrc && !fontsrc->isFile)
 		fontsrc->unref();
 	return;
 
 err2:
 	delete id;
+#if POPPLER_ENCODED_VERSION < POPPLER_VERSION_ENCODE(22, 2, 0)
 	delete fontLoc;
+#endif
+
 err1:
 	if (fontsrc && !fontsrc->isFile)
 		fontsrc->unref();
