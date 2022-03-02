@@ -10,8 +10,8 @@ URL:		http://www.scribus.net/
 # svn export svn://scribus.net/trunk/Scribus scribus
 # tar --exclude-vcs -cJf scribus-1.5.0-20161204svn21568.tar.xz scribus
 ## The following script removes non free contents
-# .fedora/make-free-archive %%{version}
-Source0:	https://github.com/mjg/%{origname}/archive/fedora.tar.gz#/%{origname}-%{version}-%{build_timestamp}git.tar.gz
+# .copr/make-free-archive %%{version}
+Source0:	https://github.com/mjg/%{origname}/archive/copr-159.tar.gz#/%{origname}-%{version}-%{build_timestamp}git.tar.gz
 #Source0:	https://github.com/mjg/%%{origname}-svn/archive/trunk.tar.gz#/%%{origname}-%%{version}-%%{build_timestamp}git.tar.gz
 
 BuildRequires:	boost-devel
@@ -81,7 +81,7 @@ import/export and creation of color separations.
 
 
 %prep
-%autosetup -n %{origname}-fedora -p1
+%autosetup -n %{origname}-copr-159 -p1
 
 # fix permissions
 chmod a-x scribus/pageitem_latexframe.h
@@ -143,6 +143,9 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Wed Mar 02 2022 Michael J Gruber <mjg@fedoraproject.org> - 1.5.9-0.20220302git
+- adjust branches
+
 * Sat Jan 29 2022 Michael J Gruber <mjg@fedoraproject.org> - 1.5.9-0.20220129git
 - svn branch Version15x carries 1.5.9.svn now
 
