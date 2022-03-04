@@ -7,11 +7,11 @@ Release:	0.%{build_timestamp}git%{?dist}
 Summary:	Open Source Page Layout
 License:	GPLv2+
 URL:		http://www.scribus.net/
-# svn export svn://scribus.net/trunk/Scribus scribus
-# tar --exclude-vcs -cJf scribus-1.5.0-20161204svn21568.tar.xz scribus
-## The following script removes non free contents
-# .copr/make-free-archive %%{version}
-Source:		{{{ cd ..; git submodule update --init >&2; cd source; ../.copr/make-free-archive.sh 1>&2; git_cwd_pack dir_name=scribus }}}
+## Pull in upstream source:
+# {{{ git submodule update --init 1>&2; git submodule }}}
+## The following script removes non free contents:
+# make-free-archive.sh {{{ cd source && ../make-free-archive.sh 1>&2 }}}
+Source:		{{{ GIT_DIRTY=1 git_pack path=source dir_name=scribus }}}
 
 BuildRequires:	boost-devel
 BuildRequires:	cmake
