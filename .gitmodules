@@ -1,0 +1,4 @@
+[submodule "scribus-svn"]
+	path = source
+	url = github:mjg/scribus-svn
+	branch = Version15x
