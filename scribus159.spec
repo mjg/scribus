@@ -1,14 +1,16 @@
-%global build_timestamp %{lua: print(os.date("%Y%m%d"))}
+## Pull in upstream source:
+# {{{ git submodule update --init 1>&2; git submodule }}}
+%global svnversion	{{{ git -C source svn find-rev HEAD }}}
+%global gitversion	{{{ git -C source rev-parse HEAD }}}
+%global gitshortversion	{{{ git -C source rev-parse --short HEAD }}}
 %global	origname	scribus
 Name:		scribus159
 Version:	1.5.9
 %global fversion	%{version}.svn
-Release:	0.%{build_timestamp}git%{?dist}
+Release:	0.%{svnversion}.g%{gitshortversion}%{?dist}
 Summary:	Open Source Page Layout
 License:	GPLv2+
 URL:		http://www.scribus.net/
-## Pull in upstream source:
-# {{{ git submodule update --init 1>&2; git submodule }}}
 ## The following script removes non free contents:
 # make-free-archive.sh {{{ cd source && ../make-free-archive.sh 1>&2 }}}
 Source:		{{{ GIT_DIRTY=1 git_pack path=source dir_name=scribus }}}
@@ -64,7 +66,7 @@ BuildRequires:	python3dist(setuptools)
 BuildRequires:	python3-tkinter
 
 
-%filter_provides_in %{_libdir}/%{origname}-%{version}/plugins
+%filter_provides_in %{_libdir}/%{origname}-%{fversion}/plugins
 %filter_setup
 
 
