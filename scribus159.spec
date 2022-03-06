@@ -5,9 +5,10 @@
 %global gitshortversion	{{{ git -C source rev-parse --short HEAD }}}
 %global	origname	scribus
 Name:		scribus159
-Version:	1.5.9
-%global fversion	%{version}.svn
-Release:	0.%{svnversion}.g%{gitshortversion}%{?dist}
+%global targetversion	1.5.9
+%global fullname	%{origname}-%{targetversion}.svn
+Version:	%{targetversion}~svn^%{svnversion}.g%{gitshortversion}
+Release:	1%{?dist}
 Summary:	Open Source Page Layout
 License:	GPLv2+
 URL:		http://www.scribus.net/
@@ -66,7 +67,7 @@ BuildRequires:	python3dist(setuptools)
 BuildRequires:	python3-tkinter
 
 
-%filter_provides_in %{_libdir}/%{origname}-%{fversion}/plugins
+%filter_provides_in %{_libdir}/%{fullname}/plugins
 %filter_setup
 
 
@@ -114,36 +115,41 @@ chmod a-x scribus/pageitem_latexframe.h
 find %{buildroot} -type f -name "*.la" -exec rm -f {} ';'
 
 %check
-desktop-file-validate %{buildroot}%{_datadir}/applications/%{origname}-%{fversion}.desktop
+desktop-file-validate %{buildroot}%{_datadir}/applications/%{fullname}.desktop
 appstream-util validate-relax --nonet \
-	%{buildroot}/%{_metainfodir}/%{origname}-%{fversion}.appdata.xml
+	%{buildroot}/%{_metainfodir}/%{fullname}.appdata.xml
 
 
 %files
-%license %{_defaultdocdir}/%{origname}-%{fversion}/COPYING
-%doc %{_defaultdocdir}/%{origname}-%{fversion}/AUTHORS
-%doc %{_defaultdocdir}/%{origname}-%{fversion}/ChangeLog
-%doc %{_defaultdocdir}/%{origname}-%{fversion}/LINKS
-%doc %{_defaultdocdir}/%{origname}-%{fversion}/README
-%doc %{_defaultdocdir}/%{origname}-%{fversion}/TRANSLATION
-%{_bindir}/%{origname}-%{fversion}
-%{_libdir}/%{origname}-%{fversion}/
-%{_metainfodir}/%{origname}-%{fversion}.appdata.xml
-%{_datadir}/applications/%{origname}-%{fversion}.desktop
-%{_datadir}/mime/packages/%{origname}-%{fversion}.xml
-%{_datadir}/icons/hicolor/16x16/apps/%{origname}-%{fversion}.png
-%{_datadir}/icons/hicolor/32x32/apps/%{origname}-%{fversion}.png
-%{_datadir}/icons/hicolor/128x128/apps/%{origname}-%{fversion}.png
-%{_datadir}/icons/hicolor/256x256/apps/%{origname}-%{fversion}.png
-%{_datadir}/icons/hicolor/512x512/apps/%{origname}-%{fversion}.png
-%{_datadir}/icons/hicolor/1024x1024/apps/%{origname}-%{fversion}.png
-%{_datadir}/%{origname}-%{fversion}/
+%license %{_defaultdocdir}/%{fullname}/COPYING
+%doc %{_defaultdocdir}/%{fullname}/AUTHORS
+%doc %{_defaultdocdir}/%{fullname}/ChangeLog
+%doc %{_defaultdocdir}/%{fullname}/LINKS
+%doc %{_defaultdocdir}/%{fullname}/README
+%doc %{_defaultdocdir}/%{fullname}/TRANSLATION
+%{_bindir}/%{fullname}
+%{_libdir}/%{fullname}/
+%{_metainfodir}/%{fullname}.appdata.xml
+%{_datadir}/applications/%{fullname}.desktop
+%{_datadir}/mime/packages/%{fullname}.xml
+%{_datadir}/icons/hicolor/16x16/apps/%{fullname}.png
+%{_datadir}/icons/hicolor/32x32/apps/%{fullname}.png
+%{_datadir}/icons/hicolor/128x128/apps/%{fullname}.png
+%{_datadir}/icons/hicolor/256x256/apps/%{fullname}.png
+%{_datadir}/icons/hicolor/512x512/apps/%{fullname}.png
+%{_datadir}/icons/hicolor/1024x1024/apps/%{fullname}.png
+%{_datadir}/%{fullname}/
 %{_mandir}/man1/*
 %{_mandir}/pl/man1/*
 %{_mandir}/de/man1/*
 
 
 %changelog
+* Sun Mar 06 2022 Michael J Gruber <mjg@fedoraproject.org> - 1.5.9~svn^24971.ga68d616dd-1
+- use current version scheme
+- build off source as submodule
+- clean source on srpm creation
+
 * Wed Mar 02 2022 Michael J Gruber <mjg@fedoraproject.org> - 1.5.9-0.20220302git
 - base 1.5.9 off 1.5.8
 
