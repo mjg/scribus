@@ -4,8 +4,8 @@
 %global gitversion	{{{ git -C source rev-parse HEAD }}}
 %global gitshortversion	{{{ git -C source rev-parse --short HEAD }}}
 %global	origname	scribus
-Name:		scribus159
-%global targetversion	1.5.9
+Name:		scribus170
+%global targetversion	1.7.0
 %global fullname	%{origname}-%{targetversion}.svn
 Version:	%{targetversion}~svn^%{svnversion}.g%{gitshortversion}
 Release:	1%{?dist}
@@ -49,20 +49,26 @@ BuildRequires:	pkgconfig(libwpd-0.10)
 BuildRequires:	pkgconfig(libwpg-0.3)
 BuildRequires:	pkgconfig(libxml-2.0)
 BuildRequires:	pkgconfig(libzmf-0.0)
-BuildRequires:	pkgconfig(openscenegraph)
+# upstream tests without OSG and has not ported support to Qt6 yet
+# BuildRequires:	pkgconfig(openscenegraph)
 BuildRequires:	pkgconfig(openssl)
 BuildRequires:	pkgconfig(poppler)
 BuildRequires:	pkgconfig(poppler-cpp)
 BuildRequires:	pkgconfig(poppler-data)
 BuildRequires:	pkgconfig(python3)
-BuildRequires:	pkgconfig(Qt5) > 5.14
-BuildRequires:	pkgconfig(Qt5Quick)
-BuildRequires:	pkgconfig(Qt5UiTools)
-BuildRequires:	pkgconfig(Qt5WebKit)
+BuildRequires:	pkgconfig(Qt6) >= 6.2
+BuildRequires:	cmake(Qt6Core)
+BuildRequires:	cmake(Qt6Core5Compat)
+BuildRequires:	cmake(Qt6Gui)
+BuildRequires:	cmake(Qt6Widgets)
+BuildRequires:	cmake(Qt6Network)
+BuildRequires:	cmake(Qt6OpenGL)
+BuildRequires:	cmake(Qt6PrintSupport)
+BuildRequires:	cmake(Qt6Xml)
+BuildRequires:	cmake(Qt6LinguistTools)
 BuildRequires:	pkgconfig(tk)
 BuildRequires:	pkgconfig(zlib)
 BuildRequires:	python3dist(pillow)
-BuildRequires:	python3-qt5-devel
 BuildRequires:	python3dist(setuptools)
 BuildRequires:	python3-tkinter
 
@@ -92,6 +98,7 @@ chmod a-x scribus/pageitem_latexframe.h
 %py3_shebang_fix %{origname}/plugins/scriptplugin/{samples,scripts}/*.py
 
 %build
+# upstream tests without OSG and has not ported support to Qt6 yet
 %cmake	\
 	-DCMAKE_CXX_STANDARD=17 \
 	-DWANT_CPP17=ON \
@@ -99,6 +106,7 @@ chmod a-x scribus/pageitem_latexframe.h
 	-DWANT_DISTROBUILD=YES \
 	-DWANT_GRAPHICSMAGICK=1 \
 	-DWANT_HUNSPELL=1 \
+	-DWANT_NOOSG=1 \
 %if "%{_lib}" == "lib64"
 	-DWANT_LIB64=YES \
 %endif
@@ -145,6 +153,11 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Mon Mar 07 2022 Michael J Gruber <mjg@fedoraproject.org> - 1.7.0~svn^24990.g9f617d817-1
+- base 1.7.0 off 1.5.9
+- 1.7.0 requires Qt6
+- disable OSG until ported to Qt6
+
 * Sun Mar 06 2022 Michael J Gruber <mjg@fedoraproject.org> - 1.5.9~svn^24971.ga68d616dd-1
 - use current version scheme
 - build off source as submodule
