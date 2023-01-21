@@ -138,6 +138,11 @@ appstream-util validate-relax --nonet \
 %{_datadir}/icons/hicolor/256x256/apps/%{fullname}.png
 %{_datadir}/icons/hicolor/512x512/apps/%{fullname}.png
 %{_datadir}/icons/hicolor/1024x1024/apps/%{fullname}.png
+%{_datadir}/icons/hicolor/16x16/mimetypes/application-vnd.%{origname}.png
+%{_datadir}/icons/hicolor/32x32/mimetypes/application-vnd.%{origname}.png
+%{_datadir}/icons/hicolor/64x64/mimetypes/application-vnd.%{origname}.png
+%{_datadir}/icons/hicolor/128x128/mimetypes/application-vnd.%{origname}.png
+%{_datadir}/icons/hicolor/256x256/mimetypes/application-vnd.%{origname}.png
 %{_datadir}/%{fullname}/
 %{_mandir}/man1/*
 %{_mandir}/pl/man1/*
