@@ -1,0 +1,53 @@
+From 63fd30a5970ea0fd14b16f8f613b1195ed767578 Mon Sep 17 00:00:00 2001
+Message-ID: <63fd30a5970ea0fd14b16f8f613b1195ed767578.1681578220.git.mjg@fedoraproject.org>
+From: Michael J Gruber <mjg@fedoraproject.org>
+Date: Sat, 15 Apr 2023 19:01:12 +0200
+Subject: [PATCH] fix code cleanup
+
+r25413 replaced struct ItemToolPrefs by ItemToolPrefs, omitting the
+struct. Fix this up.
+---
+ scribus/ui/arcwidget.cpp | 4 ++--
+ scribus/ui/arcwidget.h   | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/scribus/ui/arcwidget.cpp b/scribus/ui/arcwidget.cpp
+index f3c9ca0f3..7e723c466 100644
+--- a/scribus/ui/arcwidget.cpp
++++ b/scribus/ui/arcwidget.cpp
+@@ -43,7 +43,7 @@ void ArcWidget::connectSignals(bool conn)
+ }
+ 
+ 
+-void ArcWidget::restoreDefaults(const ItemToolPrefs *prefsData)
++void ArcWidget::restoreDefaults(const struct ItemToolPrefs *prefsData)
+ {
+ 	connectSignals(false);
+ 	startAngle->setValue(prefsData->arcStartAngle);
+@@ -52,7 +52,7 @@ void ArcWidget::restoreDefaults(const ItemToolPrefs *prefsData)
+ 	connectSignals(true);
+ }
+ 
+-void ArcWidget::saveGuiToPrefs(ItemToolPrefs *prefsData)
++void ArcWidget::saveGuiToPrefs(struct ItemToolPrefs *prefsData)
+ {
+ 	prefsData->arcStartAngle = startAngle->value();
+ 	double nSweep = endAngle->value() - startAngle->value();
+diff --git a/scribus/ui/arcwidget.h b/scribus/ui/arcwidget.h
+index cb7e10a5e..6355e7585 100644
+--- a/scribus/ui/arcwidget.h
++++ b/scribus/ui/arcwidget.h
+@@ -20,8 +20,8 @@ class SCRIBUS_API ArcWidget : public QWidget, Ui::ArcWidgetBase
+ 		ArcWidget(QWidget* parent);
+ 		~ArcWidget() {};
+ 
+-		void restoreDefaults(const ItemToolPrefs *prefsData);
+-		void saveGuiToPrefs(ItemToolPrefs *prefsData);
++		void restoreDefaults(const struct ItemToolPrefs *prefsData);
++		void saveGuiToPrefs(struct ItemToolPrefs *prefsData);
+ 
+ 	protected slots:
+ 		void updatePreview();
+-- 
+2.40.0.414.g17ff5447bb
+
