@@ -67,6 +67,7 @@ BuildRequires:	cmake(Qt6PrintSupport)
 BuildRequires:	cmake(Qt6Xml)
 BuildRequires:	cmake(Qt6LinguistTools)
 BuildRequires:	cmake(Qt6Svg)
+BuildRequires:	qt6-qtbase-private-devel
 BuildRequires:	pkgconfig(tk)
 BuildRequires:	pkgconfig(zlib)
 BuildRequires:	python3dist(pillow)
@@ -121,6 +122,10 @@ chmod a-x scribus/pageitem_latexframe.h
 %install
 %cmake_install
 
+rm -rf %{buildroot}/usr/include/qt6advanceddocking
+rm -rf %{buildroot}/usr/lib/cmake/qt6advanceddocking
+rm -rf %{buildroot}/usr/license/ads
+rm -f  %{buildroot}/usr/lib/libqt6advanceddocking_static.a
 find %{buildroot} -type f -name "*.la" -exec rm -f {} ';'
 
 %check
