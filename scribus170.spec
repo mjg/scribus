@@ -49,8 +49,7 @@ BuildRequires:	pkgconfig(libwpd-0.10)
 BuildRequires:	pkgconfig(libwpg-0.3)
 BuildRequires:	pkgconfig(libxml-2.0)
 BuildRequires:	pkgconfig(libzmf-0.0)
-# upstream tests without OSG and has not ported support to Qt6 yet
-# BuildRequires:	pkgconfig(openscenegraph)
+BuildRequires:	pkgconfig(openscenegraph)
 BuildRequires:	pkgconfig(openssl)
 BuildRequires:	pkgconfig(poppler)
 BuildRequires:	pkgconfig(poppler-cpp)
@@ -100,7 +99,6 @@ chmod a-x scribus/pageitem_latexframe.h
 %py3_shebang_fix %{origname}/plugins/scriptplugin/{samples,scripts}/*.py
 
 %build
-# upstream tests without OSG and has not ported support to Qt6 yet
 %cmake	\
 	-DCMAKE_CXX_STANDARD=17 \
 	-DWANT_CPP17=ON \
@@ -108,7 +106,6 @@ chmod a-x scribus/pageitem_latexframe.h
 	-DWANT_DISTROBUILD=YES \
 	-DWANT_GRAPHICSMAGICK=1 \
 	-DWANT_HUNSPELL=1 \
-	-DWANT_NOOSG=1 \
 %if "%{_lib}" == "lib64"
 	-DWANT_LIB64=YES \
 %endif
