@@ -4,9 +4,9 @@
 %global gitversion	{{{ git -C source rev-parse HEAD }}}
 %global gitshortversion	{{{ git -C source rev-parse --short HEAD }}}
 %global	origname	scribus
-Name:		scribus160
-%global targetversion	1.6.0
-%global fullname	%{origname}-%{targetversion}
+Name:		scribus161
+%global targetversion	1.6.1
+%global fullname	%{origname}-%{targetversion}.svn
 Version:	%{targetversion}~svn^%{svnversion}.g%{gitshortversion}
 Release:	1%{?dist}
 Summary:	Open Source Page Layout
@@ -150,6 +150,9 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Tue Jan 02 2024 Michael J Gruber <mjg@fedoraproject.org>
+- svn branch Version16x carries 1.6.1.svn now
+
 * Sun Mar 06 2022 Michael J Gruber <mjg@fedoraproject.org> - 1.5.9~svn^24971.ga68d616dd-1
 - use current version scheme
 - build off source as submodule
