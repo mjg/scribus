@@ -4,7 +4,7 @@
 %global gitversion	{{{ git -C source rev-parse HEAD }}}
 %global gitshortversion	{{{ git -C source rev-parse --short HEAD }}}
 %global	origname	scribus
-Name:		scribus170w
+Name:		scribus170
 %global targetversion	1.7.0
 %global fullname	%{origname}-%{targetversion}.svn
 Version:	%{targetversion}~svn^%{svnversion}.g%{gitshortversion}
@@ -15,7 +15,6 @@ URL:		http://www.scribus.net/
 ## The following script removes non free contents:
 # make-free-archive.sh {{{ cd source && ../make-free-archive.sh 1>&2 }}}
 Source:		{{{ GIT_DIRTY=1 git_pack path=source dir_name=scribus }}}
-Patch:		0001-Revert-Enforce-Qt-xcb-platform-plugin-on-nix-as-Qt-d.patch
 
 BuildRequires:	boost-devel
 BuildRequires:	cmake
