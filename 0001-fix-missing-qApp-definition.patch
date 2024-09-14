@@ -1,0 +1,25 @@
+From 5196140eb5a818dfb2e20f2d9a2348b0204058d5 Mon Sep 17 00:00:00 2001
+Message-ID: <5196140eb5a818dfb2e20f2d9a2348b0204058d5.1726343547.git.mjg@fedoraproject.org>
+From: Michael J Gruber <mjg@fedoraproject.org>
+Date: Sat, 14 Sep 2024 21:52:19 +0200
+Subject: [PATCH] fix missing qApp definition
+
+---
+ scribus/ui/widgets/pagesizelist.cpp | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/scribus/ui/widgets/pagesizelist.cpp b/scribus/ui/widgets/pagesizelist.cpp
+index 8f0f54ada..3838447aa 100644
+--- a/scribus/ui/widgets/pagesizelist.cpp
++++ b/scribus/ui/widgets/pagesizelist.cpp
+@@ -9,6 +9,7 @@ for which a new license (GPL+exception) is in place.
+ #include "ui/delegates/sclistitemdelegate.h"
+ #include "pagesize.h"
+ #include "prefsmanager.h"
++#include <QApplication>
+ #include <QPainter>
+ 
+ PageSizeList::PageSizeList(QWidget* parent) :
+-- 
+2.46.1.725.g85b7350d5d
+
