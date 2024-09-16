@@ -15,7 +15,6 @@ URL:		http://www.scribus.net/
 ## The following script removes non free contents:
 # make-free-archive.sh {{{ cd source && ../make-free-archive.sh 1>&2 }}}
 Source:		{{{ GIT_DIRTY=1 git_pack path=source dir_name=scribus }}}
-Patch:		0001-fix-missing-qApp-definition.patch
 
 BuildRequires:	boost-devel
 BuildRequires:	cmake
