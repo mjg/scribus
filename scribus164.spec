@@ -40,7 +40,7 @@ BuildRequires:	pkgconfig(libjpeg)
 BuildRequires:	pkgconfig(libmspub-0.1)
 BuildRequires:	pkgconfig(libpagemaker-0.0)
 BuildRequires:	pkgconfig(libpng)
-BuildRequires:	pkgconfig(libpodofo) > 0.9.0
+BuildRequires:	pkgconfig(libpodofo) >= 0.9.0
 BuildRequires:	pkgconfig(libqxp-0.0)
 BuildRequires:	pkgconfig(librevenge-0.0)
 BuildRequires:	pkgconfig(libtiff-4)
@@ -93,8 +93,6 @@ chmod a-x scribus/pageitem_latexframe.h
 
 %build
 %cmake	\
-	-DCMAKE_CXX_STANDARD=17 \
-	-DWANT_CPP17=ON \
 	-DWANT_CCACHE=YES \
 	-DWANT_DISTROBUILD=YES \
 	-DWANT_GRAPHICSMAGICK=1 \
