@@ -100,8 +100,6 @@ chmod a-x scribus/pageitem_latexframe.h
 
 %build
 %cmake	\
-	-DCMAKE_CXX_STANDARD=17 \
-	-DWANT_CPP17=ON \
 	-DWANT_CCACHE=YES \
 	-DWANT_DISTROBUILD=YES \
 	-DWANT_GRAPHICSMAGICK=1 \
