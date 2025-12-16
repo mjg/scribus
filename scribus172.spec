@@ -4,11 +4,11 @@
 %global gitversion	{{{ git -C source rev-parse HEAD }}}
 %global gitshortversion	{{{ git -C source rev-parse --short HEAD }}}
 %global	origname	scribus
-Name:		scribus171
-%global targetversion	1.7.1
-%global fullname	%{origname}-%{targetversion}
+Name:		scribus172
+%global targetversion	1.7.2
+%global fullname	%{origname}-%{targetversion}.svn
 Version:	%{targetversion}~svn^%{svnversion}.g%{gitshortversion}
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Open Source Page Layout
 License:	GPLv2+
 URL:		http://www.scribus.net/
@@ -160,6 +160,9 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Tue Dec 16 2025 Michael J Gruber <mjg@fedoraproject.org>
+- svn branch trunk carries 1.7.2.svn now
+
 * Mon Mar 07 2022 Michael J Gruber <mjg@fedoraproject.org> - 1.7.0~svn^24990.g9f617d817-1
 - base 1.7.0 off 1.5.9
 - 1.7.0 requires Qt6
