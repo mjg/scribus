@@ -6,7 +6,7 @@
 %global	origname	scribus
 Name:		scribus172
 %global targetversion	1.7.2
-%global fullname	%{origname}-%{targetversion}.svn
+%global fullname	%{origname}-%{targetversion}
 Version:	%{targetversion}~svn^%{svnversion}.g%{gitshortversion}
 Release:	2%{?dist}
 Summary:	Open Source Page Layout
