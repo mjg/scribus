@@ -16,6 +16,7 @@ URL:		http://www.scribus.net/
 # make-free-archive.sh {{{ cd source && ../make-free-archive.sh 1>&2 }}}
 Source:		{{{ GIT_DIRTY=1 git_pack path=source dir_name=scribus }}}
 
+Patch:		0001-fix-FTBFS-with-incomplete-type-FPoint.patch
 
 BuildRequires:	boost-devel
 BuildRequires:	cmake

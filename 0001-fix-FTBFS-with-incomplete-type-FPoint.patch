@@ -1,0 +1,29 @@
+From 6f1fb5d39da71b548aed8303dfe6fd43c57ed4f9 Mon Sep 17 00:00:00 2001
+Message-ID: <6f1fb5d39da71b548aed8303dfe6fd43c57ed4f9.1772821024.git.mjg@fedoraproject.org>
+From: Michael J Gruber <mjg@fedoraproject.org>
+Date: Fri, 6 Mar 2026 19:16:57 +0100
+Subject: [PATCH] fix FTBFS with incomplete type FPoint
+
+---
+ scribus/framelinkrouter.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/scribus/framelinkrouter.h b/scribus/framelinkrouter.h
+index c4ffc6eb5..2e34132b6 100644
+--- a/scribus/framelinkrouter.h
++++ b/scribus/framelinkrouter.h
+@@ -13,9 +13,10 @@
+ #include <math.h>
+ #include <QVector>
+ 
++#include "fpoint.h"
++
+ class PageItem;
+ class ScPainter;
+-class FPoint;
+ 
+ /**
+  * @brief Routes and draws orthogonal connector lines between linked text frames.
+-- 
+2.53.0.766.gc91a775c12
+
