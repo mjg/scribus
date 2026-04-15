@@ -4,9 +4,9 @@
 %global gitversion	{{{ git -C source rev-parse HEAD }}}
 %global gitshortversion	{{{ git -C source rev-parse --short HEAD }}}
 %global	origname	scribus
-Name:		scribus173
-%global targetversion	1.7.3
-%global fullname	%{origname}-%{targetversion}
+Name:		scribus174
+%global targetversion	1.7.4
+%global fullname	%{origname}-%{targetversion}.svn
 Version:	%{targetversion}~svn^%{svnversion}.g%{gitshortversion}
 Release:	1%{?dist}
 Summary:	Open Source Page Layout
